@@ -41,7 +41,7 @@ function getNodeInfluenceSamples(input: vec2, samples: vec2[])
 简单方向性混合认为，这两个样本点在它们分别的权重下的和就构成了输入点，即存在：
 
 {% raw %}
-<script src="https://cdn.bootcss.com/mathjax/2.7.4/latest.js"></script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 <p>
     When \(a \ne 0\), there are two solutions to \(ax^2 + bx + c = 0\) and they are
   $$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$
