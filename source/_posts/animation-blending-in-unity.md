@@ -38,15 +38,12 @@ function getNodeInfluenceSamples(input: vec2, samples: vec2[])
 
 #### 确定结点影响部分的权重
 
-简单方向性混合认为，这两个样本点在它们分别的权重下的和就构成了输入点，即存在：
-
+简单方向性混合认为，这两个样本点与它们权重相乘之和就构成了输入点，记输入点为{% raw %} $P_i$ {% endraw %}，两个样本点为{% raw %} $P_1$ {% endraw %}和{% raw %} $P_2$ {% endraw %}，其权重分别为{% raw %} $t_1$ {% endraw %}、{% raw %} $t_2$ {% endraw %}，即存在：
 {% raw %}
-<script src="https://cdn.bootcss.com/mathjax/2.7.4/latest.js"></script>
-<p>
-    When \(a \ne 0\), there are two solutions to \(ax^2 + bx + c = 0\) and they are
-  $$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$
-</p>
+$$ P_i = P_1 \cdot t_1 + P_2 \cdot t_2 $$
 {% endraw %}
+注意到样本点与输入点都是二维向量，因此该方程存在{% raw %} $t_1$ {% endraw %}、{% raw %} $t_2$ {% endraw %}的解。
+
 
 # 参考文献
 
