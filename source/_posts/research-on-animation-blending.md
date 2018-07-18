@@ -4,23 +4,35 @@ date: 2018-07-11 11:58:46
 tags:
 ---
 
-# 二维混合
+# 现有游戏引擎支持概况
+
+| 游戏引擎 | 一维混合 | 二维混合 | 其它 |
+| ---- | ---- | ---- | ---- |
+| Unity | 根据输入参数混合 | 三种混合方式：Simple Directional、Freeform Cartesain、Freeform Directional | Direct Blend  |
+| Unreal |  |  | |
+| Egret | 动画切换时混合 | 不支持 | |
+| LayaAir | 不支持 | 不支持 | |
+| PlayCanvas | 动画切换时混合 | 不支持 | |
+
+# Unity
+
+## 二维混合
 
 Unity包含3种二维混合方式：
 
-* 简单方向性混合（Simple Directional）
-* 自由形态下的笛卡尔空间混合（Freeform Cartesian）
-* 自由形态下的方向性混合（Freeform Directional）
+* 简单定向混合（Simple Directional）
+* 自由笛卡尔空间混合（Freeform Cartesian）
+* 自由定向混合（Freeform Directional）
 
-## 简单方向性混合
+### 简单定向混合
 
-简单方向性混合将最终结果的影响分为**结点影响部分**和**中心影响部分**。
+简单定向混合将最终结果的影响分为**结点影响部分**和**中心影响部分**。
 
-### 结点影响部分的计算
+#### 结点影响部分的计算
 
-我们将本身位于原点的样本点称为**中心点**。除过中心点外，从原点像各个样本点发出射线，整个平面空间会被分割成若干扇形区域。只有输入点所在扇形区域所确定的两个样本点贡献于结点影响部分，并根据这两个样本点与输入点的方位来确定结点影响部分的权重。
+我们将本身位于原点的样本点称为**中心点**。除过中心点外，从原点向各个样本点发出射线，整个平面空间会被分割成若干扇形区域。只有输入点所在扇形区域所确定的两个样本点贡献于结点影响部分，并根据这两个样本点与输入点的方位来确定结点影响部分的权重。
 
-#### 确定输入点所在的扇形区域
+##### 确定输入点所在的扇形区域
 
 显而易见，我们可以计算出每个样本点与输入点之间的角度差，其中最大的差和最小的差所对应的就是我们需要的样本点。
 
@@ -45,9 +57,9 @@ function getNodeInfluenceSamples(input: vec2, samples: vec2[])
 }
 ```
 
-#### 确定结点影响部分的权重
+##### 确定结点影响部分的权重
 
-简单方向性混合认为，将输入点视为这两个样本点的线性组合之后，可以用两个线性系数决定最后的权重。记输入点为{% raw %} $P_i$ {% endraw %}，两个样本点为{% raw %} $P_1$ {% endraw %}和{% raw %} $P_2$ {% endraw %}，其在线性组合中的系数分别为{% raw %} $t_1$ {% endraw %}、{% raw %} $t_2$ {% endraw %}，即存在：
+简单定向混合认为，将输入点视为这两个样本点的线性组合之后，可以用两个线性系数决定最后的权重。记输入点为{% raw %} $P_i$ {% endraw %}，两个样本点为{% raw %} $P_1$ {% endraw %}和{% raw %} $P_2$ {% endraw %}，其在线性组合中的系数分别为{% raw %} $t_1$ {% endraw %}、{% raw %} $t_2$ {% endraw %}，即存在：
 {% raw %}
 $$ P_i = P_1 \cdot t_1 + P_2 \cdot t_2 $$
 {% endraw %}
@@ -112,7 +124,7 @@ $$ Weight_1 = NodeInfluence \cdot { t_1 \over t_1 + t_2 }  $$
 $$ Weight_2 = NodeInfluence \cdot { t_2 \over t_1 + t_2 }  $$
 {% endraw %}
 
-若求解出的系数中存在负数，则表示输入点虽然位于这两个采样点对应的扇形中，但不在这两个采样点以及原点构成的三角形中。在这种情况下，简单方向性混合认为这两个采样点的贡献都为0.5。
+若求解出的系数中存在负数，则表示输入点虽然位于这两个采样点对应的扇形中，但不在这两个采样点以及原点构成的三角形中。在这种情况下，简单定向混合认为这两个采样点的贡献都为0.5。
 {% raw %}
 $$ Weight_1 = Weight_2 = NodeInfluence \cdot 0.5  $$
 {% endraw %}
@@ -138,7 +150,7 @@ function calcNodeInfluence(result: vec2[], input: vec2, samples: vec2[])
 }
 ```
 
-### 中心影响部分的计算
+#### 中心影响部分的计算
 
 中心影响部分定义为除去结点影响部分的其它部分。因此，其权重为：
 {% raw %}
@@ -163,8 +175,8 @@ function calcCenterInfluence(result: vec2[], centerIndex: number, nodeInfluence:
     else
     {
         let average = centerInfluence / result.length;
-            for (let i = 0; i < result.length; ++i)
-                result[i] += average;
+        for (let i = 0; i < result.length; ++i)
+            result[i] += average;
     }
 }
 ```
@@ -182,7 +194,13 @@ function simpleDirectionalBlend(result: vec2[], input: vec2, samples: vec2[])
 }
 ```
 
+### 梯度带插值
+
+
+
 # 参考文献
+
+1. [Animation Blending | Learn PlayCanvas](https://developer.playcanvas.com/en/tutorials/animation-blending/)
 
 1. Rune, Skovbo, Johansen. Automated Semi‐Procedural Animation for Character Locomotion[D]. Aarhus University:Rune Skovbo Johansen, 2009.
 
