@@ -30,7 +30,7 @@ Unity包含3种二维混合方式：
 
 #### 结点影响部分的计算
 
-我们将本身位于原点的样本点称为**中心点**。除过中心点外，从原点向各个样本点发出射线，整个平面空间会被分割成若干扇形区域。只有输入点所在扇形区域所确定的两个样本点贡献于结点影响部分，并根据这两个样本点与输入点的方位来确定结点影响部分的权重。
+我们将本身位于原点的样本点称为**中心点**。除过中心点外，从原点向各个样本点发出射线，整个平面空间会被分割成若干扇形区域。只有输入点所在扇形区域所确定的两个样本点贡献于结点影响部分，根据这两个样本点与输入点的方位来确定结点影响部分的权重。
 
 ##### 确定输入点所在的扇形区域
 
@@ -59,7 +59,7 @@ function getNodeInfluenceSamples(input: vec2, samples: vec2[])
 
 ##### 确定结点影响部分的权重
 
-简单定向混合认为，将输入点视为这两个样本点的线性组合之后，可以用两个线性系数决定最后的权重。记输入点为{% raw %} $P_i$ {% endraw %}，两个样本点为{% raw %} $P_1$ {% endraw %}和{% raw %} $P_2$ {% endraw %}，其在线性组合中的系数分别为{% raw %} $t_1$ {% endraw %}、{% raw %} $t_2$ {% endraw %}，即存在：
+记输入点为{% raw %} $P_i$ {% endraw %}，两个样本点为{% raw %} $P_1$ {% endraw %}和{% raw %} $P_2$ {% endraw %}，视输入点为两个样本点的线性组合，相应的线性组合系数分别为{% raw %} $t_1$ {% endraw %}、{% raw %} $t_2$ {% endraw %}，即存在：
 {% raw %}
 $$ P_i = P_1 \cdot t_1 + P_2 \cdot t_2 $$
 {% endraw %}
@@ -113,7 +113,7 @@ function getNodeInfluenceSamplesCoff(input: vec2, p1: vec2, p2: vec2)
 }
 ```
 
-结点影响部分的权重就用这两个系数的和来衡量，同时，对其进行归一化：
+简单定向混合认为，结点影响部分的整体权重就用这两个系数的和来衡量，同时，对其进行归一化：
 {% raw %}
 $$ NodeInfluence = clamp(t_1 + t_2, 0, 1) $$
 {% endraw %}
@@ -210,8 +210,8 @@ function simpleDirectionalBlend(result: vec2[], input: vec2, samples: vec2[])
 
 1. [重新实现unity3d的Mecanim动画混合 (2) 2D Freeform Cartesian](https://segmentfault.com/a/1190000006859384)
 
-<!-- {% raw %}
-<canvas id="pdfcanvas" width="480" height="640">
+{% raw %}
+<!-- <canvas id="pdfcanvas" width="480" height="640">
 	</canvas>
 
 	<button id="prev">Previous</button>
@@ -226,7 +226,5 @@ function simpleDirectionalBlend(result: vec2[], input: vec2, samples: vec2[])
 	<script src="/scripts/pdfviewer.js"> </script>
 	<script>
 		new PDFViewer("/resources/foundation.pdf");
-	</script>
-{% endraw %} -->
-
-<!-- {% pdfviewer %} -->
+	</script> -->
+{% endraw %}
