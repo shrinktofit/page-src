@@ -81,6 +81,17 @@ deploy:
   type: git
   repo: https://github.com/shrinktofit/shrinktofit.github.io.git
 
+# Markdown-it config
+## Docs: https://github.com/celsomiranda/hexo-renderer-markdown-it/wiki
+markdown:
+  render:
+    html: true
+    xhtmlOut: false
+    breaks: false
+    linkify: false
+    typographer: true
+    quotes: '“”‘’'
+
 # For aircloud 
  
 sidebar-avatar: images/sidebar-avatar.jpg

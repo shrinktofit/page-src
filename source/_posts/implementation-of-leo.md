@@ -4,9 +4,7 @@ date: 2018-08-24 11:18:00
 tags:
 ---
 
-{% raw %}
 <script src="https://cdn.bootcss.com/vis/4.21.0/vis.min.js"></script>
-{% endraw %}
 
 LEO将整个编译过程分为以下阶段：
 
@@ -27,8 +25,6 @@ LEO将整个编译过程分为以下阶段：
     按照C++标准规定的文法，将符号流解析为内部语法格式。
 
 * 语义分析
-
-{% raw %}
 
 <div id="frontend-stream-graph" style="width:600px;height:400px;border:1px solid lightgray;">
 </div>
@@ -62,8 +58,6 @@ LEO将整个编译过程分为以下阶段：
         }
     });
 </script>
-
-{% endraw %}
 
 # 源文件读取
 
