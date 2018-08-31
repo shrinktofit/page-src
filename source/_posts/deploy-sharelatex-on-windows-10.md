@@ -48,12 +48,10 @@ ports:
 为
 ```yml
     volumes:
-        - ShareLatex存放数据的目录/sharelatex_data:/var/lib/sharelatex
-        - ShareLatex与Docker通讯的目录/var/run/docker.sock:/var/run/docker.sock
-        - Windows主机向ShareLatex容器传递的数据目录:ShareLatex容器接收数据的目录
+        - E:/ShareLatex/sharelatex_data:/var/lib/sharelatex
+        - E:/ShareLatex/var/run/docker.sock:/var/run/docker.sock
+        - E:/ShareLatex/transfer:/home/host
 ```
-其中“ShareLatex存放数据的目录”、“ShareLatex与Docker通讯的目录”、“Windows主机向ShareLatex容器传递的数据目录”可以是Windows主机上任意的目录，例如：“E:\Docker”。
-“ShareLatex容器接收数据的目录”可以是ShareLatex容器中任意的目录，例如：“/home/host”。
 
 `environment`项中增加一项：
 ```yml
