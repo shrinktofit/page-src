@@ -7,9 +7,8 @@ tags:
 # 现有游戏引擎支持概况
 
 | 游戏引擎 | 一维混合 | 二维混合 | 其它 |
-| ---- | ---- | ---- | ---- |
-| Unity | 根据输入参数混合 | 三种混合方式：Simple Directional、Freeform Cartesain、Freeform Directional | Direct Blend  |
-| Unreal |  |  | |
+| :---- | :---- | :---- | :---- |
+| Unity | 根据输入参数混合 | Simple Directional, Freeform Cartesain, Freeform Directional | Direct Blend  |
 | Egret | 动画切换时混合 | 不支持 | |
 | LayaAir | 不支持 | 不支持 | |
 | PlayCanvas | 动画切换时混合 | 不支持 | |
@@ -59,11 +58,9 @@ function getNodeInfluenceSamples(input: vec2, samples: vec2[])
 
 ##### 确定结点影响部分的权重
 
-记输入点为{% raw %} $P_i$ {% endraw %}，两个样本点为{% raw %} $P_1$ {% endraw %}和{% raw %} $P_2$ {% endraw %}，视输入点为两个样本点的线性组合，相应的线性组合系数分别为{% raw %} $t_1$ {% endraw %}、{% raw %} $t_2$ {% endraw %}，即存在：
-{% raw %}
+记输入点为 \\(P_i\\)，两个样本点放速度为 \\(P_1\\) 和 \\(P_2\\)，视输入点为两个样本点的线性组合，相应的线性组合系数分别为 \\(t_1\\)、\\(t_2\\)，即存在：
 $$ P_i = P_1 \cdot t_1 + P_2 \cdot t_2 $$
-{% endraw %}
-注意到样本点与输入点都是二维向量，因此该方程存在{% raw %} $t_1$ {% endraw %}、{% raw %} $t_2$ {% endraw %}的解。
+注意到样本点与输入点都是二维向量，因此该方程存在 \\(t_1\\)、\\(t_2\\) 的解。
 可以用矩阵求解：
 {% raw %}
     $$
@@ -114,20 +111,15 @@ function getNodeInfluenceSamplesCoff(input: vec2, p1: vec2, p2: vec2)
 ```
 
 简单定向混合认为，结点影响部分的整体权重就用这两个系数的和来衡量，同时，对其进行归一化：
-{% raw %}
 $$ NodeInfluence = clamp(t_1 + t_2, 0, 1) $$
-{% endraw %}
+
 
 回到采样点上，若求解出的系数中不存在负数，这两个采样点对整个结点影响部分的贡献分别等于它们的系数与系数和之比。自然，它们的权重就等于它们各自对结点影响部分的贡献乘以结点影响部分的权重：
-{% raw %}
 $$ Weight_1 = NodeInfluence \cdot { t_1 \over t_1 + t_2 }  $$
 $$ Weight_2 = NodeInfluence \cdot { t_2 \over t_1 + t_2 }  $$
-{% endraw %}
 
-若求解出的系数中存在负数，则表示输入点虽然位于这两个采样点对应的扇形中，但不在这两个采样点以及原点构成的三角形中。在这种情况下，简单定向混合认为这两个采样点的贡献都为0.5。
-{% raw %}
+若求解出的系数中存在负数，则表示输入点虽然位于这两个采样点对应的扇形中，但不在这两个采样点以及原点构成的三角形中。在这种情况下，简单定向混合认为这两个采样点的贡献都为 0.5。
 $$ Weight_1 = Weight_2 = NodeInfluence \cdot 0.5  $$
-{% endraw %}
 
 ```ts
 function calcNodeInfluence(result: vec2[], input: vec2, samples: vec2[])
@@ -153,18 +145,12 @@ function calcNodeInfluence(result: vec2[], input: vec2, samples: vec2[])
 #### 中心影响部分的计算
 
 中心影响部分定义为除去结点影响部分的其它部分。因此，其权重为：
-{% raw %}
 $$ CenterInfluence = 1.0 - NodeInfluence $$
-{% endraw %}
 
 若存在中心采样点，则中心影响部分的权重皆视为来自该中心采样点：
-{% raw %}
 $$ Weight_{center} = CenterInfluence  $$
-{% endraw %}
 否则，中心影响部分的权重视为平均来自每个样本点（记样本点数目为{% raw %}$N${% endraw %}）：
-{% raw %}
 $$ Weight_i = {CenterInfluence \over N}  $$
-{% endraw %}
 
 ```ts
 function calcCenterInfluence(result: vec2[], centerIndex: number, nodeInfluence: number)
